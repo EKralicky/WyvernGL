@@ -32,9 +32,30 @@ private:
 public:
 	Camera(glm::vec3 initPos, float sensitivity);
 	~Camera();
+
 	glm::mat4 getViewMatrix();
+
+	void moveForward()
+
 	void processKeyInput(int key, float deltaTime);
 	void processMouseInput(float xoffset, float yoffset);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	// Getters & Setters
 	inline void  movementSpeed(const float& speed) {

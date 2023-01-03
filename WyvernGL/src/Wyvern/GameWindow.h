@@ -53,7 +53,7 @@ namespace Wyvern {
 		void initGlew();
 		void setCursorMode(int mode);
 		inline void setEventCallback(const EventCallbackFn& callback) { windowData.eventCallbackFn = callback; }
-		inline GLFWwindow*& GLWindow() {
+		inline GLFWwindow*& getGLFWWindow() {
 			return m_window;
 		}
 		inline float deltaTime() {

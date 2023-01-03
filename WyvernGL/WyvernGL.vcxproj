@@ -163,7 +163,7 @@
   <ItemGroup>
     <ClCompile Include="src\Wyvern\Application.cpp" />
     <ClCompile Include="src\Wyvern\event\KeyEvent.h" />
-    <ClCompile Include="src\Wyvern\KeyInputHandler.cpp" />
+    <ClCompile Include="src\Wyvern\UserInput.cpp" />
     <ClCompile Include="src\Wyvern\render\Camera.cpp" />
     <ClCompile Include="src\Wyvern\GameWindow.cpp" />
     <ClCompile Include="src\Wyvern\render\IndexBuffer.cpp" />
@@ -195,7 +195,7 @@
     <ClInclude Include="src\Wyvern\event\ApplicationEvent.h" />
     <ClInclude Include="src\Wyvern\event\Event.h" />
     <ClInclude Include="src\Wyvern\event\MouseEvent.h" />
-    <ClInclude Include="src\Wyvern\KeyInputHandler.h" />
+    <ClInclude Include="src\Wyvern\UserInput.h" />
     <ClInclude Include="src\Wyvern\render\Camera.h" />
     <ClInclude Include="src\Wyvern\Core.h" />
     <ClInclude Include="src\Wyvern\GameWindow.h" />

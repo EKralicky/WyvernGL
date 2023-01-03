@@ -1,5 +1,6 @@
 #include "Application.h"
 #include "EntryPoint.h"
+#include "Core.h"
 
 #include "Wyvern.h"
 #include "Wyvern/render/Shader.h"
@@ -12,16 +13,18 @@
 
 namespace Wyvern {
 
-// Member, or non-static functions are slightly different than static functions as they have one more
-// implicit agument: this. The this "argument" is a pointer to the instance use to call the function.
-// In order for us to create an std::function out of a member function, we need to bind the function
-// with an instance of a class that the member function belongs to. (in this case its "this" because we are in the class of the member function)
-// We also need to use placeholders for any explicit parameters defined in the member function we are defining.
-// Now, c++ can call the function because it knows what instance it belongs to and what explicit parameters exist.
-#define BIND_EVENT_FN(x) std::bind(&x, this, std::placeholders::_1)
+    // Member, or non-static functions are slightly different than static functions as they have one more
+    // implicit agument: this. The this "argument" is a pointer to the instance use to call the function.
+    // In order for us to create an std::function out of a member function, we need to bind the function
+    // with an instance of a class that the member function belongs to. (in this case its "this" because we are in the class of the member function)
+    // We also need to use placeholders for any explicit parameters defined in the member function we are defining.
+    // Now, c++ can call the function because it knows what instance it belongs to and what explicit parameters exist.
+    #define BIND_EVENT_FN(x) std::bind(&x, this, std::placeholders::_1)
+
 	Wyvern::Application::Application()
         :m_running(true)
 	{
+        s_Instance = this; // For singleton
         m_gameWindow = new GameWindow(); // Using default params
         m_gameWindow->setVSync(true);
         m_gameWindow->setEventCallback(BIND_EVENT_FN(Application::onEvent));
@@ -34,7 +37,7 @@ namespace Wyvern {
         ImGui_ImplGlfw_Shutdown();
         ImGui::DestroyContext();
 
-        glfwDestroyWindow(m_gameWindow->GLWindow());
+        glfwDestroyWindow(m_gameWindow->getGLFWWindow());
         glfwTerminate();
 
 		delete m_camera;
@@ -49,6 +52,11 @@ namespace Wyvern {
         dispatcher.dispatch<MouseMovedEvent>(BIND_EVENT_FN(Application::onMouseMoved));
         dispatcher.dispatch<KeyPressedEvent>(BIND_EVENT_FN(Application::onKeyPressed));
         dispatcher.dispatch<KeyReleasedEvent>(BIND_EVENT_FN(Application::onKeyReleased));
+    }
+
+    void Application::test()
+    {
+        std::cout << "test\n";
     }
 
     void Application::handleRepeatingKeyInputs()
@@ -306,7 +314,7 @@ namespace Wyvern {
             // IMGUI init
             const char* glslVersion = "#version 430";
             ImGui::CreateContext();
-            ImGui_ImplGlfw_InitForOpenGL(m_gameWindow->GLWindow(), true);
+            ImGui_ImplGlfw_InitForOpenGL(m_gameWindow->getGLFWWindow(), true);
             ImGui_ImplOpenGL3_Init(glslVersion);
             ImGui::StyleColorsDark();
 
@@ -322,12 +330,12 @@ namespace Wyvern {
 
             m_camera->movementSpeed(20.0f);
             /* Loop until the user closes the window */
-            while (!glfwWindowShouldClose(m_gameWindow->GLWindow()))
+            while (!glfwWindowShouldClose(m_gameWindow->getGLFWWindow()))
             {
                 m_gameWindow->updateDeltaTime();
                 handleRepeatingKeyInputs();
                 //if (m_camera->canMove()) {
-                //    m_camera->processKeyboardInput(m_gameWindow->GLWindow(), m_gameWindow->deltaTime());
+                //    m_camera->processKeyboardInput(m_gameWindow->getGLFWWindow(), m_gameWindow->deltaTime());
                 //}
 
 
