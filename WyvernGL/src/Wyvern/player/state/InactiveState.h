@@ -1,5 +1,5 @@
 #pragma once
-#include "Wyvern/player/Player.h"
+#include "PlayerState.h"
 
 namespace Wyvern {
 	class InactiveState : public AliveState {

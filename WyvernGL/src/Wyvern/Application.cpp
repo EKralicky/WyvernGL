@@ -11,8 +11,8 @@
 #include "imgui/imgui_impl_glfw.h"
 #include "imgui/imgui_impl_opengl3.h"
 
-namespace Wyvern {
 
+namespace Wyvern {
     // Member, or non-static functions are slightly different than static functions as they have one more
     // implicit agument: this. The this "argument" is a pointer to the instance use to call the function.
     // In order for us to create an std::function out of a member function, we need to bind the function
@@ -100,7 +100,7 @@ namespace Wyvern {
         //    break;
         //}
 
-        //return true;
+        return true;
     }
 
     bool Application::onKeyReleased(KeyReleasedEvent& e)
@@ -121,6 +121,7 @@ namespace Wyvern {
         //    break;
         //}
         //return true;
+        return true;
     }
 
 

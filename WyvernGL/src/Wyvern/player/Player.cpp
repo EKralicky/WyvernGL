@@ -4,7 +4,7 @@
 namespace Wyvern {
 
 	Player::Player()
-		: m_state(PlayerState::activeState)
+		: m_state(Player::activeState)
 	{ 
 		//m_playerCamera = new Camera(glm::vec3(0, 0, 0), 0.1f); // Starting at x y z = 0 0 0, with sensitivity of 0.1
 	}

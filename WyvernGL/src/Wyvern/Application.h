@@ -27,7 +27,7 @@ namespace Wyvern {
 		bool onKeyReleased(KeyReleasedEvent& e);
 
 		bool m_running;
-		static Application* s_Instance;
+		inline static Application* s_Instance;
 
 	public:
 		Application();

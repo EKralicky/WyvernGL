@@ -24,7 +24,7 @@ namespace Wyvern {
 
 	class UserInput {
 	public:
-		static std::map<Input, int>& keyMap; // maps input to GLFW (or our own) keycode
+		inline static std::map<Input, int> keyMap; // maps input to GLFW (or our own) keycode
 		static bool isKeyPressed(int keycode);
 		static bool isMouseButtonDown(int mouseButton);
 		static void setKeyBinding(Input inputType, int keycode);

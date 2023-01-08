@@ -21,7 +21,7 @@ namespace Wyvern {
 	// To be used in specific event classes for the event dispatcher & debugging.
 	// getStaticType() - Simply returns the EventType associated with the class
 	// getEventType() - Is used to get an event type given a generic event. The event dispatcher can check this type against a static event type
-#define EVENT_TYPE(type) static EventType getStaticType() { return EventType::##type; }\
+#define EVENT_TYPE(type) static EventType getStaticType() { return EventType::type; }\
 						 virtual EventType getEventType() const override { return getStaticType(); }\
 						 virtual const char* getEventName() const override { return #type; }
 

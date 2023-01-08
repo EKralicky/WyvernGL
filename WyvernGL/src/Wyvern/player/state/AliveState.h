@@ -1,6 +1,5 @@
 #pragma once
-#include "Wyvern/player/Player.h"
-#include "Wyvern/UserInput.h"
+#include "PlayerState.h"
 
 namespace Wyvern {
 

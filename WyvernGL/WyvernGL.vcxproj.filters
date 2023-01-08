@@ -87,6 +87,7 @@
     <None Include="res\shaders\overlay.shader" />
     <None Include="res\shaders\line.shader" />
     <None Include="res\shaders\static.shader" />
+    <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Wyvern\render\Renderer.h">
@@ -192,6 +193,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Wyvern\player\state\InactiveState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Wyvern\player\state\PlayerState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

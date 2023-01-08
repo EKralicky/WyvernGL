@@ -1,25 +1,22 @@
 #pragma once
 #include "Wyvern.h"
-#include "Wyvern/player/state/ActiveState.h"
+#include "state/ActiveState.h"
+#include "state/InactiveState.h"
+#include "state/AliveState.h"
+#include "state/DeadState.h"
 #include "Wyvern/render/Camera.h"
+#include "Wyvern/player/state/PlayerState.h"
 
 namespace Wyvern {
 
-	class Player;
-	class PlayerState {
-	public:
-		static ActiveState activeState;
-
-		virtual ~PlayerState() {}
-		virtual void handleInput(Player& player, Input input) {}
-		virtual void update(Player& player) {}
-		virtual void enter(Player& player) {}
-		virtual void exit(Player& player) {}
-	};
+	
 
 	// This class is eventually going to inherit RidgidBody for physics calculations
 	class Player {
-	
+
+		inline static ActiveState activeState;
+		inline static AliveState aliveState;
+
 	private:
 		Camera* m_playerCamera;
 		// I have no idea how im going to store coordinates right now so ill add these here
@@ -52,8 +49,4 @@ namespace Wyvern {
 			}
 		}
 	};
-
-
-
-
 }
