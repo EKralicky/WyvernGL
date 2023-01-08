@@ -163,6 +163,7 @@
   <ItemGroup>
     <ClCompile Include="src\Wyvern\Application.cpp" />
     <ClCompile Include="src\Wyvern\event\KeyEvent.h" />
+    <ClCompile Include="src\Wyvern\player\Player.cpp" />
     <ClCompile Include="src\Wyvern\UserInput.cpp" />
     <ClCompile Include="src\Wyvern\render\Camera.cpp" />
     <ClCompile Include="src\Wyvern\GameWindow.cpp" />
@@ -195,6 +196,11 @@
     <ClInclude Include="src\Wyvern\event\ApplicationEvent.h" />
     <ClInclude Include="src\Wyvern\event\Event.h" />
     <ClInclude Include="src\Wyvern\event\MouseEvent.h" />
+    <ClInclude Include="src\Wyvern\player\Player.h" />
+    <ClInclude Include="src\Wyvern\player\state\ActiveState.h" />
+    <ClInclude Include="src\Wyvern\player\state\AliveState.h" />
+    <ClInclude Include="src\Wyvern\player\state\DeadState.h" />
+    <ClInclude Include="src\Wyvern\player\state\InactiveState.h" />
     <ClInclude Include="src\Wyvern\UserInput.h" />
     <ClInclude Include="src\Wyvern\render\Camera.h" />
     <ClInclude Include="src\Wyvern\Core.h" />

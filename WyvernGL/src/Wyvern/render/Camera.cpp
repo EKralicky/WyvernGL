@@ -45,6 +45,10 @@ void Camera::updateCameraVectors()
 
 }
 
+// Moves each coordinate of the camera's current position by a certain amount
+//void Camera::moveBy(glm::vec3 amount) {
+//	m_position 
+//}
 
 void Camera::processKeyInput(int key, float deltaTime)
 {

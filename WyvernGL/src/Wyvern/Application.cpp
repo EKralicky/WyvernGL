@@ -29,6 +29,7 @@ namespace Wyvern {
         m_gameWindow->setVSync(true);
         m_gameWindow->setEventCallback(BIND_EVENT_FN(Application::onEvent));
         m_camera = new Camera(glm::vec3(0, 0, 0), 0.1f);
+        m_player = new Player();
 	}
 
 	Wyvern::Application::~Application()
@@ -54,18 +55,6 @@ namespace Wyvern {
         dispatcher.dispatch<KeyReleasedEvent>(BIND_EVENT_FN(Application::onKeyReleased));
     }
 
-    void Application::test()
-    {
-        std::cout << "test\n";
-    }
-
-    void Application::handleRepeatingKeyInputs()
-    {
-        for (auto& key : m_repeatingKeyInputs) {
-            m_camera->processKeyInput(key, m_gameWindow->deltaTime());
-        }
-    }
-
     bool Application::onWindowClose(WindowCloseEvent& e)
     {
         m_running = false;
@@ -80,56 +69,58 @@ namespace Wyvern {
 
     bool Application::onKeyPressed(KeyPressedEvent& e)
     {
-        switch (e.getKeycode())
-        {
-        case GLFW_KEY_ESCAPE: // Pressing the escape key disables/toggles player movement for debug menu/imgui access
-        {
-            if (!m_camera->canMove()) { // If the camera can't move, make it move again
-                m_gameWindow->setCursorMode(GLFW_CURSOR_DISABLED);
-                m_camera->firstMouse(true);
-                m_camera->canMove(true);
-            }
-            else { // Stop camera movement
-                m_gameWindow->setCursorMode(GLFW_CURSOR_NORMAL);
-                m_camera->canMove(false);
-            }
-            break;
-        }
-        case GLFW_KEY_W:
-        case GLFW_KEY_A:
-        case GLFW_KEY_S:
-        case GLFW_KEY_D:
-        case GLFW_KEY_SPACE:
-        case GLFW_KEY_LEFT_CONTROL:
-        {
-            m_repeatingKeyInputs.insert(e.getKeycode());
-            break;
-        }
-        default:
-            break;
-        }
 
-        return true;
+
+        //switch (e.getKeycode())
+        //{
+        //case GLFW_KEY_ESCAPE: // Pressing the escape key disables/toggles player movement for debug menu/imgui access
+        //{
+        //    if (!m_camera->canMove()) { // If the camera can't move, make it move again
+        //        m_gameWindow->setCursorMode(GLFW_CURSOR_DISABLED);
+        //        m_camera->firstMouse(true);
+        //        m_camera->canMove(true);
+        //    }
+        //    else { // Stop camera movement
+        //        m_gameWindow->setCursorMode(GLFW_CURSOR_NORMAL);
+        //        m_camera->canMove(false);
+        //    }
+        //    break;
+        //}
+        //case GLFW_KEY_W:
+        //case GLFW_KEY_A:
+        //case GLFW_KEY_S:
+        //case GLFW_KEY_D:
+        //case GLFW_KEY_SPACE:
+        //case GLFW_KEY_LEFT_CONTROL:
+        //{
+        //    m_repeatingKeyInputs.insert(e.getKeycode());
+        //    break;
+        //}
+        //default:
+        //    break;
+        //}
+
+        //return true;
     }
 
     bool Application::onKeyReleased(KeyReleasedEvent& e)
     {
-        switch (e.getKeycode())
-        {
-        case GLFW_KEY_W:
-        case GLFW_KEY_A:
-        case GLFW_KEY_S:
-        case GLFW_KEY_D:
-        case GLFW_KEY_SPACE:
-        case GLFW_KEY_LEFT_CONTROL:
-        {
-            m_repeatingKeyInputs.erase(m_repeatingKeyInputs.find(e.getKeycode()));
-            //std::remove(m_repeatingKeyInputs.begin(),m_repeatingKeyInputs.end(), e.getKeycode());
-        }
-        default:
-            break;
-        }
-        return true;
+        //switch (e.getKeycode())
+        //{
+        //case GLFW_KEY_W:
+        //case GLFW_KEY_A:
+        //case GLFW_KEY_S:
+        //case GLFW_KEY_D:
+        //case GLFW_KEY_SPACE:
+        //case GLFW_KEY_LEFT_CONTROL:
+        //{
+        //    m_repeatingKeyInputs.erase(m_repeatingKeyInputs.find(e.getKeycode()));
+        //    //std::remove(m_repeatingKeyInputs.begin(),m_repeatingKeyInputs.end(), e.getKeycode());
+        //}
+        //default:
+        //    break;
+        //}
+        //return true;
     }
 
 
@@ -333,7 +324,6 @@ namespace Wyvern {
             while (!glfwWindowShouldClose(m_gameWindow->getGLFWWindow()))
             {
                 m_gameWindow->updateDeltaTime();
-                handleRepeatingKeyInputs();
                 //if (m_camera->canMove()) {
                 //    m_camera->processKeyboardInput(m_gameWindow->getGLFWWindow(), m_gameWindow->deltaTime());
                 //}

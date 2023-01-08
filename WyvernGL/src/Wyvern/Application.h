@@ -9,6 +9,8 @@
 #include "event/ApplicationEvent.h"
 #include "event/KeyEvent.h"
 
+#include "Wyvern/player/Player.h"
+
 namespace Wyvern {
 
 	class Application
@@ -16,9 +18,9 @@ namespace Wyvern {
 	private:
 		Renderer* m_renderer;
 		Camera* m_camera;
+		Player* m_player;
 		GameWindow* m_gameWindow;
 
-		void handleRepeatingKeyInputs();
 		bool onWindowClose(WindowCloseEvent& e);
 		bool onMouseMoved(MouseMovedEvent& e);
 		bool onKeyPressed(KeyPressedEvent& e);
@@ -32,7 +34,6 @@ namespace Wyvern {
 		~Application();
 		void run();
 		void onEvent(Event& e);
-		void test();
 
 		static Application& get() { return *s_Instance;  };
 

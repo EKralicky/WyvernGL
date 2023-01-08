@@ -5,20 +5,30 @@
 
 namespace Wyvern {
 
+	enum class Input {
+		// Entity Specific
+		ENTITY_JUMP,
+		ENTITY_CROUCH,
+		ENTITY_SPRINT,
+		ENTITY_MOVE_FORWARD,
+		ENTITY_MOVE_BACKWARD,
+		ENTITY_STRAFE_LEFT,
+		ENTITY_STRAFE_RIGHT,
+		ENTITY_OPEN_INVENTORY,
+		// User Specific
+		ESCAPE,
+		OPEN_DEBUG_MENU,
+		VIEW_ONLINE_PLAYERS
+	};
+
+
 	class UserInput {
 	public:
-		static std::map<int, std::function<void>>& keyMap;
-		static std::map<int, int>& directKeyMap;
-		// Polling input checks
-		static bool isKeyPressed(int key);
+		static std::map<Input, int>& keyMap; // maps input to GLFW (or our own) keycode
+		static bool isKeyPressed(int keycode);
 		static bool isMouseButtonDown(int mouseButton);
-		// Reset & set default key bindings
-		static void setDefaultKeyBindings() {
-			keyMap.insert_or_assign(GLFW_KEY_W, BIND_VOID_FN_NOPARAM(Application::get().getCamera(), Camera::moveForward));
-			directKeyMap.insert_or_assign("WYVERN_MV_FORWARD", )
-		}
-		static void setKeyBinding(int key, std::function<void> fnCallback);
-		static void removeKeyBinding(int key);
-
+		static void setKeyBinding(Input inputType, int keycode);
+		static void removeKeyBinding(Input inputType);
+		static void setDefaultKeyBindings();
 	};
 }
