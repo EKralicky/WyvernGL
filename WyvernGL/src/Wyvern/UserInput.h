@@ -7,6 +7,7 @@ namespace Wyvern {
 
 	enum class Input {
 		NONE,
+		POLL_MOVEMENT, // Every frame, this event will be dispatched to poll for player movement
 		// Entity Specific
 		ENTITY_JUMP,
 		ENTITY_CROUCH,

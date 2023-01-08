@@ -9,6 +9,16 @@ namespace Wyvern {
 		{
 			switch (input)
 			{
+			case Input::POLL_MOVEMENT:
+				if (UserInput::isKeyPressed(UserInput::getKeyBinding(Input::ENTITY_MOVE_FORWARD)))
+					// move forward
+				if (UserInput::isKeyPressed(UserInput::getKeyBinding(Input::ENTITY_MOVE_BACKWARD)))
+					// move backward
+				if (UserInput::isKeyPressed(UserInput::getKeyBinding(Input::ENTITY_STRAFE_LEFT)))
+					// strafe left
+				if (UserInput::isKeyPressed(UserInput::getKeyBinding(Input::ENTITY_STRAFE_RIGHT)))
+					// strafe right
+				break;
 			case Input::ENTITY_MOVE_FORWARD:
 				//player.modifyVelocity(player.getCamera()->getFacingVector());
 				std::cout << "[ActiveState] MOVE_FORWARD\n";
