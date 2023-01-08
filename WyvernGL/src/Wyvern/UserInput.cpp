@@ -9,6 +9,19 @@ namespace Wyvern {
 		UserInput::keyMap.insert_or_assign(inputType, keycode);
 	}
 
+	Input UserInput::getKeyBinding(int keycode)
+	{
+		for (const auto& [key, value] : UserInput::keyMap) 
+			if (value == keycode)
+				return key;
+		return Input::NONE;
+	}
+
+	int UserInput::getKeyBinding(Input inputType)
+	{
+		return UserInput::keyMap.find(inputType)->second;
+	}
+
 	void UserInput::removeKeyBinding(Input inputType)
 	{
 		UserInput::keyMap.insert_or_assign(inputType, GLFW_KEY_UNKNOWN);

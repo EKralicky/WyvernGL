@@ -30,6 +30,8 @@ namespace Wyvern {
         m_gameWindow->setEventCallback(BIND_EVENT_FN(Application::onEvent));
         m_camera = new Camera(glm::vec3(0, 0, 0), 0.1f);
         m_player = new Player();
+        // Setup default keymap
+        UserInput::setDefaultKeyBindings();
 	}
 
 	Wyvern::Application::~Application()
@@ -41,6 +43,7 @@ namespace Wyvern {
         glfwDestroyWindow(m_gameWindow->getGLFWWindow());
         glfwTerminate();
 
+        delete m_player;
 		delete m_camera;
 		delete m_gameWindow;
         delete m_renderer;
@@ -69,7 +72,8 @@ namespace Wyvern {
 
     bool Application::onKeyPressed(KeyPressedEvent& e)
     {
-
+        Input keyboundInputType = UserInput::getKeyBinding(e.getKeycode());
+        m_player->handleInput(keyboundInputType);
 
         //switch (e.getKeycode())
         //{

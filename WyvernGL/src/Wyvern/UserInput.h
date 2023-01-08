@@ -6,6 +6,7 @@
 namespace Wyvern {
 
 	enum class Input {
+		NONE,
 		// Entity Specific
 		ENTITY_JUMP,
 		ENTITY_CROUCH,
@@ -28,6 +29,8 @@ namespace Wyvern {
 		static bool isKeyPressed(int keycode);
 		static bool isMouseButtonDown(int mouseButton);
 		static void setKeyBinding(Input inputType, int keycode);
+		static Input getKeyBinding(int keycode); // Retrieves input type from keycode
+		static int getKeyBinding(Input inputType); // Returns keycode given an input type
 		static void removeKeyBinding(Input inputType);
 		static void setDefaultKeyBindings();
 	};
