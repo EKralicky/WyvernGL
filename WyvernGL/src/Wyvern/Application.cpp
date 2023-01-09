@@ -28,7 +28,6 @@ namespace Wyvern {
         m_gameWindow = new GameWindow(); // Using default params
         m_gameWindow->setVSync(true);
         m_gameWindow->setEventCallback(BIND_EVENT_FN(Application::onEvent));
-        //m_camera = new Camera(glm::vec3(0, 0, 0), 0.1f);
         m_player = new Player();
         // Setup default keymap
         UserInput::setDefaultKeyBindings();
@@ -44,7 +43,6 @@ namespace Wyvern {
         glfwTerminate();
 
         delete m_player;
-		//delete m_camera;
 		delete m_gameWindow;
         delete m_renderer;
 	}
@@ -366,7 +364,6 @@ namespace Wyvern {
                 m_gameWindow->onUpdate();
                 m_player->decreaseVelocity(0.05f);
             }
-
         }
     }    
 }

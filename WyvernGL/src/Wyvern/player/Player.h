@@ -8,6 +8,7 @@
 #include "Wyvern/player/state/PlayerState.h"
 
 namespace Wyvern {
+
 	// This class is eventually going to inherit RidgidBody for physics calculations
 	class Player {
 
