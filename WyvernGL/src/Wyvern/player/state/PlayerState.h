@@ -1,7 +1,6 @@
 #pragma once
 #include "Wyvern/UserInput.h"
 
-
 namespace Wyvern {
 	class Player;
 	class PlayerState {

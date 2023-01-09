@@ -168,6 +168,8 @@
     <ClCompile Include="src\Wyvern\Application.cpp" />
     <ClCompile Include="src\Wyvern\event\KeyEvent.h" />
     <ClCompile Include="src\Wyvern\player\Player.cpp" />
+    <ClCompile Include="src\Wyvern\player\state\ActiveState.cpp" />
+    <ClCompile Include="src\Wyvern\player\state\AliveState.cpp" />
     <ClCompile Include="src\Wyvern\UserInput.cpp" />
     <ClCompile Include="src\Wyvern\render\Camera.cpp" />
     <ClCompile Include="src\Wyvern\GameWindow.cpp" />

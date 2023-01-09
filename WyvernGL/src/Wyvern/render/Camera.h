@@ -2,9 +2,6 @@
 #include "Wyvern.h"
 #include "Wyvern/GameWindow.h"
 
-#define BODY_PARALLEL 
-#define BODY_PERPENDICULAR 
-
 class Camera {
 
 private:
@@ -36,9 +33,16 @@ public:
 	~Camera();
 
 	glm::mat4 getViewMatrix();
-
 	void processKeyInput(int key, float deltaTime);
 	void processMouseInput(float xoffset, float yoffset);
+	void moveBy(glm::vec3 amount);
+	glm::vec3 getFacingVector();
+	glm::vec3 getSideVector();
+	//{
+	//	return glm::normalize(glm::vec3(m_frontVector.x, 0.0f, m_frontVector.z));
+	//}
+	//{ return glm::normalize(glm::cross(m_frontVector, m_upVector)); }
+	
 	// Getters & Setters
 	inline void  movementSpeed(const float& speed) {
 		m_movementSpeed = speed;
@@ -46,8 +50,6 @@ public:
 	inline float* movementSpeed() {
 		return &m_movementSpeed;
 	};
-	glm::vec3 getFacingVector() { return glm::normalize(glm::vec3(m_frontVector.x, 0.0f, m_frontVector.z)); }
-	glm::vec3 getSideVector() { glm::normalize(glm::cross(m_frontVector, m_upVector)); }
 	inline void  position(glm::vec3 newPosition) {
 		m_position = newPosition;
 	}

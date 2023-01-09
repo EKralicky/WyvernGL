@@ -8,9 +8,6 @@
 #include "Wyvern/player/state/PlayerState.h"
 
 namespace Wyvern {
-
-	
-
 	// This class is eventually going to inherit RidgidBody for physics calculations
 	class Player {
 
@@ -33,20 +30,11 @@ namespace Wyvern {
 
 		Camera* getCamera() { return m_playerCamera; }
 
-		void update();
 		void handleInput(Input input); // Dispatches to player state machine
 		void changeState(PlayerState& state);
-		void modifyVelocity(glm::vec3 value) { 
-			m_velocity += value;
-			if (m_velocity.x > m_maxVelocity.x) {
-				m_velocity.x = m_maxVelocity.x;
-			}
-			if (m_velocity.y > m_maxVelocity.y) {
-				m_velocity.y = m_maxVelocity.y;
-			}
-			if (m_velocity.z > m_maxVelocity.z) {
-				m_velocity.z = m_maxVelocity.z;
-			}
-		}
+		void modifyVelocity(glm::vec3 value);
+		void decreaseVelocity(float rate);
+		void updateCamera();
+
 	};
 }

@@ -44,11 +44,25 @@ void Camera::updateCameraVectors()
 	m_upVector = glm::normalize(glm::cross(m_rightVector, m_frontVector));
 
 }
+//Moves each coordinate of the camera's current position by a certain amount
+void Camera::moveBy(glm::vec3 amount)
+{
+	m_position += amount;
+}
 
-// Moves each coordinate of the camera's current position by a certain amount
-//void Camera::moveBy(glm::vec3 amount) {
-//	m_position 
-//}
+glm::vec3 Camera::getFacingVector()
+{
+	glm::vec3 out = glm::normalize(glm::vec3(m_frontVector.x, 0.0f, m_frontVector.z));
+	std::cout << glm::to_string(out) << "\n";
+	return out;
+}
+
+glm::vec3 Camera::getSideVector()
+{
+	glm::vec3 out = glm::normalize(glm::cross(m_frontVector, m_upVector));
+	std::cout << glm::to_string(out) << "\n";
+	return out;
+}
 
 void Camera::processKeyInput(int key, float deltaTime)
 {
@@ -104,5 +118,7 @@ void Camera::processMouseInput(float xposd, float yposd)
 		updateCameraVectors();
 	}
 }
+
+
 
 

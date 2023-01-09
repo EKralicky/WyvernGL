@@ -17,7 +17,7 @@ namespace Wyvern {
 	{
 	private:
 		Renderer* m_renderer;
-		Camera* m_camera;
+		//Camera* m_camera;
 		Player* m_player;
 		GameWindow* m_gameWindow;
 
@@ -41,9 +41,9 @@ namespace Wyvern {
 			return *m_gameWindow;
 		}
 
-		Camera& getCamera() {
-			return *m_camera;
-		}
+		//Camera& getCamera() {
+		//	return *m_camera;
+		//}
 	};
 
 	Application* createApplication();

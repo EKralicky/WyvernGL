@@ -4,3 +4,7 @@
 
 
 #define BIND_VOID_FN_NOPARAM(instance, x) std::bind(&x, instance)
+
+template <typename T> int sgn(T val) {
+    return (T(0) < val) - (val < T(0));
+}

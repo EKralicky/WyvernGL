@@ -10,7 +10,7 @@ namespace Wyvern {
 			switch (input)
 			{
 			default:
-				std::cout << "beans\n";
+				std::cout << "Handled in AliveState\n";
 			}
 		}
 

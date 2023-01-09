@@ -28,7 +28,7 @@ namespace Wyvern {
         m_gameWindow = new GameWindow(); // Using default params
         m_gameWindow->setVSync(true);
         m_gameWindow->setEventCallback(BIND_EVENT_FN(Application::onEvent));
-        m_camera = new Camera(glm::vec3(0, 0, 0), 0.1f);
+        //m_camera = new Camera(glm::vec3(0, 0, 0), 0.1f);
         m_player = new Player();
         // Setup default keymap
         UserInput::setDefaultKeyBindings();
@@ -44,7 +44,7 @@ namespace Wyvern {
         glfwTerminate();
 
         delete m_player;
-		delete m_camera;
+		//delete m_camera;
 		delete m_gameWindow;
         delete m_renderer;
 	}
@@ -66,7 +66,7 @@ namespace Wyvern {
 
     bool Application::onMouseMoved(MouseMovedEvent& e)
     {
-        m_camera->processMouseInput(e.getXPos(), e.getYPos());
+        m_player->getCamera()->processMouseInput(e.getXPos(), e.getYPos());
         return true; // Handled
     }
 
@@ -74,63 +74,13 @@ namespace Wyvern {
     {
         Input keyboundInputType = UserInput::getKeyBinding(e.getKeycode());
         m_player->handleInput(keyboundInputType);
-
-        //switch (e.getKeycode())
-        //{
-        //case GLFW_KEY_ESCAPE: // Pressing the escape key disables/toggles player movement for debug menu/imgui access
-        //{
-        //    if (!m_camera->canMove()) { // If the camera can't move, make it move again
-        //        m_gameWindow->setCursorMode(GLFW_CURSOR_DISABLED);
-        //        m_camera->firstMouse(true);
-        //        m_camera->canMove(true);
-        //    }
-        //    else { // Stop camera movement
-        //        m_gameWindow->setCursorMode(GLFW_CURSOR_NORMAL);
-        //        m_camera->canMove(false);
-        //    }
-        //    break;
-        //}
-        //case GLFW_KEY_W:
-        //case GLFW_KEY_A:
-        //case GLFW_KEY_S:
-        //case GLFW_KEY_D:
-        //case GLFW_KEY_SPACE:
-        //case GLFW_KEY_LEFT_CONTROL:
-        //{
-        //    m_repeatingKeyInputs.insert(e.getKeycode());
-        //    break;
-        //}
-        //default:
-        //    break;
-        //}
-
         return true;
     }
 
     bool Application::onKeyReleased(KeyReleasedEvent& e)
     {
-        //switch (e.getKeycode())
-        //{
-        //case GLFW_KEY_W:
-        //case GLFW_KEY_A:
-        //case GLFW_KEY_S:
-        //case GLFW_KEY_D:
-        //case GLFW_KEY_SPACE:
-        //case GLFW_KEY_LEFT_CONTROL:
-        //{
-        //    m_repeatingKeyInputs.erase(m_repeatingKeyInputs.find(e.getKeycode()));
-        //    //std::remove(m_repeatingKeyInputs.begin(),m_repeatingKeyInputs.end(), e.getKeycode());
-        //}
-        //default:
-        //    break;
-        //}
-        //return true;
         return true;
     }
-
-
-
-
 
     void generateMesh(std::vector<Cube>& cubes, float* outPositions) {
         std::vector<float>* finalAttributes = new std::vector<float>;
@@ -324,7 +274,7 @@ namespace Wyvern {
             bool mxaaEnable = true;
             bool tildeDown = false;
 
-            m_camera->movementSpeed(20.0f);
+            m_player->getCamera()->movementSpeed(20.0f);
             /* Loop until the user closes the window */
             while (!glfwWindowShouldClose(m_gameWindow->getGLFWWindow()))
             {
@@ -334,7 +284,7 @@ namespace Wyvern {
                 //}
 
 
-                glm::mat4 view = m_camera->getViewMatrix();
+                glm::mat4 view = m_player->getCamera()->getViewMatrix();
 
 
                 /* Render here */
@@ -348,7 +298,7 @@ namespace Wyvern {
                 shader.Bind();
                 shader.SetUniform4f("u_LightColor", lightColor.r, lightColor.g, lightColor.b, 1.0f); // sets color of light cube specified in the lightingVA
                 shader.SetUniform4f("u_LightPos", lightPosition.x, lightPosition.y, lightPosition.z, 1.0f); // sets color of light cube specified in the lightingVA
-                glm::vec3 cameraPos = m_camera->position();
+                glm::vec3 cameraPos = m_player->getCamera()->position();
                 shader.SetUniform4f("u_ViewPos", cameraPos.x, cameraPos.y, cameraPos.z, 1.0f);
                 cubeVA.Bind();
                 {
@@ -386,7 +336,7 @@ namespace Wyvern {
 
                 //IMGui movement controls
                 {
-                    ImGui::SliderFloat("Camera Movement Speed", m_camera->movementSpeed(), 10.0f, 100.0f);
+                    ImGui::SliderFloat("Camera Movement Speed", m_player->getCamera()->movementSpeed(), 10.0f, 100.0f);
                     ImGui::SliderFloat3("Light Position", &lightPosition.x, -250.0f, 250.0f);
                     ImGui::ColorEdit3("Light Color", &lightColor.x);
                     ImGui::Checkbox("Toggle Wireframe", &wireframeEnable);
@@ -409,10 +359,12 @@ namespace Wyvern {
                     GLCall(glDisable(GL_MULTISAMPLE));
                 }
 
-
+                m_player->handleInput(Input::POLL_MOVEMENT); // Poll for movement every frame
+                m_player->updateCamera();
                 ImGui::Render();
                 ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
                 m_gameWindow->onUpdate();
+                m_player->decreaseVelocity(0.05f);
             }
 
         }
