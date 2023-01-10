@@ -1,15 +1,10 @@
 #pragma once
-#include "PlayerState.h"
+#include "AliveState.h"
 
 namespace Wyvern {
 	class InactiveState : public AliveState {
-		virtual void handleInput(Player& player, Input input) override
-		{
-			switch (input)
-			{
-			default:
-				std::cout << "Handled in InactiveState\n";
-			}
-		}
+		virtual void handleInput(Player& player, InputEvent input) override;
+		STATE_NAME("InactiveState")
+		STATE_TYPE(INACTIVE)
 	};
 }

@@ -4,43 +4,57 @@
 
 namespace Wyvern {
 
-	void UserInput::setKeyBinding(Input inputType, int keycode)
+	void UserInput::setKeyBinding(InputType inputType, int keycode)
 	{
-		UserInput::keyMap.insert_or_assign(inputType, keycode);
+		m_keyMap.insert_or_assign(inputType, keycode);
 	}
 
-	Input UserInput::getKeyBinding(int keycode)
+	InputType UserInput::getKeyBinding(int keycode)
 	{
-		for (const auto& [key, value] : UserInput::keyMap) 
+		for (const auto& [key, value] : UserInput::m_keyMap) 
 			if (value == keycode)
 				return key;
-		return Input::NONE;
+		return InputType::NONE;
 	}
 
-	int UserInput::getKeyBinding(Input inputType)
+	int UserInput::getKeyBinding(InputType inputType)
 	{
-		return UserInput::keyMap.find(inputType)->second;
+		return m_keyMap.find(inputType)->second;
 	}
 
-	void UserInput::removeKeyBinding(Input inputType)
+	void UserInput::removeKeyBinding(InputType inputType)
 	{
-		UserInput::keyMap.insert_or_assign(inputType, GLFW_KEY_UNKNOWN);
+		UserInput::m_keyMap.insert_or_assign(inputType, GLFW_KEY_UNKNOWN);
 	}
 
 	void UserInput::setDefaultKeyBindings()
 	{
-		setKeyBinding(Input::ENTITY_MOVE_FORWARD, GLFW_KEY_W);
-		setKeyBinding(Input::ENTITY_MOVE_BACKWARD, GLFW_KEY_S);
-		setKeyBinding(Input::ENTITY_STRAFE_LEFT, GLFW_KEY_A);
-		setKeyBinding(Input::ENTITY_STRAFE_RIGHT, GLFW_KEY_D);
-		setKeyBinding(Input::ENTITY_JUMP, GLFW_KEY_SPACE);
-		setKeyBinding(Input::ENTITY_CROUCH, GLFW_KEY_LEFT_CONTROL);
-		setKeyBinding(Input::ENTITY_SPRINT, GLFW_KEY_LEFT_SHIFT);
-		setKeyBinding(Input::ENTITY_OPEN_INVENTORY, GLFW_KEY_LEFT_SHIFT);
+		setKeyBinding(InputType::ENTITY_MOVE_FORWARD, GLFW_KEY_W);
+		setKeyBinding(InputType::ENTITY_MOVE_BACKWARD, GLFW_KEY_S);
+		setKeyBinding(InputType::ENTITY_STRAFE_LEFT, GLFW_KEY_A);
+		setKeyBinding(InputType::ENTITY_STRAFE_RIGHT, GLFW_KEY_D);
+		setKeyBinding(InputType::ENTITY_JUMP, GLFW_KEY_SPACE);
+		setKeyBinding(InputType::ENTITY_CROUCH, GLFW_KEY_LEFT_CONTROL);
+		setKeyBinding(InputType::ENTITY_SPRINT, GLFW_KEY_LEFT_SHIFT);
+		setKeyBinding(InputType::ENTITY_OPEN_INVENTORY, GLFW_KEY_LEFT_SHIFT);
 
-		setKeyBinding(Input::ESCAPE, GLFW_KEY_ESCAPE);
-		setKeyBinding(Input::OPEN_DEBUG_MENU, GLFW_KEY_GRAVE_ACCENT);
-		setKeyBinding(Input::VIEW_ONLINE_PLAYERS, GLFW_KEY_TAB);
+		setKeyBinding(InputType::ESCAPE, GLFW_KEY_ESCAPE);
+		setKeyBinding(InputType::OPEN_DEBUG_MENU, GLFW_KEY_GRAVE_ACCENT);
+		setKeyBinding(InputType::VIEW_ONLINE_PLAYERS, GLFW_KEY_TAB);
+	}
+
+	void UserInput::addActiveInput(InputEvent input)
+	{
+		m_activeInputs.insert(input);
+	}
+
+	void UserInput::removeActiveInput(const InputType input)
+	{
+		for (auto& in : m_activeInputs) {
+			if (in.inputType == input) {
+				m_activeInputs.erase(in);
+			}
+		}
 	}
 
 	bool UserInput::isKeyPressed(int key)
@@ -52,6 +66,8 @@ namespace Wyvern {
 	{
 		return false;
 	}
+
+
 
 }
 

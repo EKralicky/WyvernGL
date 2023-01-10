@@ -31,8 +31,9 @@ namespace Wyvern {
 
 		Camera* getCamera() { return m_playerCamera; }
 
-		void handleInput(Input input); // Dispatches to player state machine
+		void handleInput(InputEvent input); // Dispatches to player state machine
 		void changeState(PlayerState& state);
+		PlayerStateType getStateType();
 		void modifyVelocity(glm::vec3 value);
 		void decreaseVelocity(float rate);
 		void updateCamera();

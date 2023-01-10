@@ -22,13 +22,13 @@ namespace Wyvern {
     #define BIND_EVENT_FN(x) std::bind(&x, this, std::placeholders::_1)
 
 	Wyvern::Application::Application()
-        :m_running(true)
+        :m_gameWindow(std::make_unique<GameWindow>()),
+         m_player(std::make_unique<Player>()),
+         m_running(true)
 	{
         s_Instance = this; // For singleton
-        m_gameWindow = new GameWindow(); // Using default params
         m_gameWindow->setVSync(true);
         m_gameWindow->setEventCallback(BIND_EVENT_FN(Application::onEvent));
-        m_player = new Player();
         // Setup default keymap
         UserInput::setDefaultKeyBindings();
 	}
@@ -41,19 +41,17 @@ namespace Wyvern {
 
         glfwDestroyWindow(m_gameWindow->getGLFWWindow());
         glfwTerminate();
-
-        delete m_player;
-		delete m_gameWindow;
-        delete m_renderer;
 	}
 
     void Application::onEvent(Event& e)
     {
-        EventDispatcher dispatcher(e);
-        dispatcher.dispatch<WindowCloseEvent>(BIND_EVENT_FN(Application::onWindowClose));
-        dispatcher.dispatch<MouseMovedEvent>(BIND_EVENT_FN(Application::onMouseMoved));
-        dispatcher.dispatch<KeyPressedEvent>(BIND_EVENT_FN(Application::onKeyPressed));
-        dispatcher.dispatch<KeyReleasedEvent>(BIND_EVENT_FN(Application::onKeyReleased));
+        if (e.getEventType() == EventType::None) {
+            throw "ERROR: (1) Unable to add event to event queue: Event's EventType field is 'NONE'";
+        }
+        else {
+            Event* _e = &e;
+            eventQueue.push(_e);
+        }
     }
 
     bool Application::onWindowClose(WindowCloseEvent& e)
@@ -65,19 +63,47 @@ namespace Wyvern {
     bool Application::onMouseMoved(MouseMovedEvent& e)
     {
         m_player->getCamera()->processMouseInput(e.getXPos(), e.getYPos());
-        return true; // Handled
+        return true;
     }
 
+    // Converts KeyPressedEvent to InputEvent with an InputType and if the kety is in the repeating state.
+    // This input event will be added to a list within UserInput. In the input pass, this list will get iterated over and
+    // the InputEvents will be sent to their appropriate destinations for processing e.g. the player state machine for movement
     bool Application::onKeyPressed(KeyPressedEvent& e)
     {
-        Input keyboundInputType = UserInput::getKeyBinding(e.getKeycode());
-        m_player->handleInput(keyboundInputType);
+        InputEvent inputEvent = { UserInput::getKeyBinding(e.getKeycode()), e.isRepeated() };
+        UserInput::addActiveInput(inputEvent);
         return true;
     }
 
+    // When a key gets released, if an InputEvent with a matching keycode exists within the list of InputEvents, the InputEvent will get removed.
     bool Application::onKeyReleased(KeyReleasedEvent& e)
     {
+        UserInput::removeActiveInput(UserInput::getKeyBinding(e.getKeycode()));
         return true;
+    }
+
+    // Adds each event to an event queue which will get processed at the end of each frame.
+    // The event dispatcher will dispatch these events to a specific bound function for processing
+    // The event queue should be empty afterwards
+    void Application::processEvents()
+    {
+        while (!eventQueue.empty()) {
+            Event* e = eventQueue.front();
+            EventDispatcher dispatcher(*e);
+            dispatcher.dispatch<WindowCloseEvent>(BIND_EVENT_FN(Application::onWindowClose));
+            dispatcher.dispatch<MouseMovedEvent>(BIND_EVENT_FN(Application::onMouseMoved));
+            dispatcher.dispatch<KeyPressedEvent>(BIND_EVENT_FN(Application::onKeyPressed));
+            dispatcher.dispatch<KeyReleasedEvent>(BIND_EVENT_FN(Application::onKeyReleased));
+            eventQueue.pop();
+        }
+    }
+
+    void Application::processInput()
+    {
+        for (InputEvent inputEvent : UserInput::getActiveInputs()) {
+            m_player->handleInput(inputEvent);
+        }
     }
 
     void generateMesh(std::vector<Cube>& cubes, float* outPositions) {
@@ -357,7 +383,8 @@ namespace Wyvern {
                     GLCall(glDisable(GL_MULTISAMPLE));
                 }
 
-                m_player->handleInput(Input::POLL_MOVEMENT); // Poll for movement every frame
+                processEvents();
+                processInput();
                 m_player->updateCamera();
                 ImGui::Render();
                 ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

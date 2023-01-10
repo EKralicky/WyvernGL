@@ -1,5 +1,4 @@
 #pragma once
-
 #include "GameWindow.h"
 #include "Wyvern/render/Camera.h"
 #include "Wyvern/render/Renderer.h"
@@ -16,15 +15,17 @@ namespace Wyvern {
 	class Application
 	{
 	private:
-		Renderer* m_renderer;
-		//Camera* m_camera;
-		Player* m_player;
-		GameWindow* m_gameWindow;
+		std::unique_ptr<GameWindow> m_gameWindow;
+		std::unique_ptr<Renderer> m_renderer;
+		std::unique_ptr<Player> m_player;
+		std::queue<Event*> eventQueue;
 
 		bool onWindowClose(WindowCloseEvent& e);
 		bool onMouseMoved(MouseMovedEvent& e);
 		bool onKeyPressed(KeyPressedEvent& e);
 		bool onKeyReleased(KeyReleasedEvent& e);
+		void processEvents();
+		void processInput();
 
 		bool m_running;
 		inline static Application* s_Instance;
@@ -40,10 +41,6 @@ namespace Wyvern {
 		GameWindow& getWindow() {
 			return *m_gameWindow;
 		}
-
-		//Camera& getCamera() {
-		//	return *m_camera;
-		//}
 	};
 
 	Application* createApplication();

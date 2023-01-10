@@ -29,6 +29,8 @@ namespace Wyvern {
 			: KeyEvent(keycode), m_Repeated(repeated) {} // Creates an instance of KeyEvent with the keycode
 
 		inline int getKeycode() const { return m_Keycode; }
+		inline bool isRepeated() const { return m_Repeated; }
+
 
 		std::string toString() const override
 		{

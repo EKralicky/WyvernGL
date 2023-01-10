@@ -14,7 +14,7 @@ namespace Wyvern {
 		delete m_playerCamera;
 	}
 
-	void Player::handleInput(Input input)
+	void Player::handleInput(InputEvent input)
 	{
 		m_state.handleInput(*this, input);
 	}
@@ -26,6 +26,11 @@ namespace Wyvern {
 		m_state.exit(*this);
 		m_state = newState;
 		m_state.enter(*this);
+	}
+
+	PlayerStateType Player::getStateType()
+	{
+		return m_state.getStateType();
 	}
 
 	void Player::modifyVelocity(glm::vec3 value)
