@@ -18,13 +18,11 @@ namespace Wyvern {
 		std::unique_ptr<GameWindow> m_gameWindow;
 		std::unique_ptr<Renderer> m_renderer;
 		std::unique_ptr<Player> m_player;
-		std::queue<Event*> eventQueue;
 
 		bool onWindowClose(WindowCloseEvent& e);
 		bool onMouseMoved(MouseMovedEvent& e);
 		bool onKeyPressed(KeyPressedEvent& e);
 		bool onKeyReleased(KeyReleasedEvent& e);
-		void processEvents();
 		void processInput();
 
 		bool m_running;

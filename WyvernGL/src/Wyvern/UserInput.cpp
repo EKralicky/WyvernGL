@@ -48,11 +48,15 @@ namespace Wyvern {
 		m_activeInputs.insert(input);
 	}
 
-	void UserInput::removeActiveInput(const InputType input)
+	void UserInput::removeActiveInput(InputType input)
 	{
-		for (auto& in : m_activeInputs) {
-			if (in.inputType == input) {
-				m_activeInputs.erase(in);
+		std::cout << "SIZE: " << m_activeInputs.size() << "\n";
+		for (auto i = m_activeInputs.begin(), last = m_activeInputs.end(); i != last; ) {
+			if (i->inputType == input) {
+				i = m_activeInputs.erase(i);
+			}
+			else {
+				++i;
 			}
 		}
 	}

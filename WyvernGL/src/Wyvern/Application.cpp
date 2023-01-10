@@ -45,13 +45,11 @@ namespace Wyvern {
 
     void Application::onEvent(Event& e)
     {
-        if (e.getEventType() == EventType::None) {
-            throw "ERROR: (1) Unable to add event to event queue: Event's EventType field is 'NONE'";
-        }
-        else {
-            Event* _e = &e;
-            eventQueue.push(_e);
-        }
+        EventDispatcher dispatcher(e);
+        dispatcher.dispatch<WindowCloseEvent>(BIND_EVENT_FN(Application::onWindowClose));
+        dispatcher.dispatch<MouseMovedEvent>(BIND_EVENT_FN(Application::onMouseMoved));
+        dispatcher.dispatch<KeyPressedEvent>(BIND_EVENT_FN(Application::onKeyPressed));
+        dispatcher.dispatch<KeyReleasedEvent>(BIND_EVENT_FN(Application::onKeyReleased));
     }
 
     bool Application::onWindowClose(WindowCloseEvent& e)
@@ -83,26 +81,11 @@ namespace Wyvern {
         return true;
     }
 
-    // Adds each event to an event queue which will get processed at the end of each frame.
-    // The event dispatcher will dispatch these events to a specific bound function for processing
-    // The event queue should be empty afterwards
-    void Application::processEvents()
-    {
-        while (!eventQueue.empty()) {
-            Event* e = eventQueue.front();
-            EventDispatcher dispatcher(*e);
-            dispatcher.dispatch<WindowCloseEvent>(BIND_EVENT_FN(Application::onWindowClose));
-            dispatcher.dispatch<MouseMovedEvent>(BIND_EVENT_FN(Application::onMouseMoved));
-            dispatcher.dispatch<KeyPressedEvent>(BIND_EVENT_FN(Application::onKeyPressed));
-            dispatcher.dispatch<KeyReleasedEvent>(BIND_EVENT_FN(Application::onKeyReleased));
-            eventQueue.pop();
-        }
-    }
-
     void Application::processInput()
     {
-        for (InputEvent inputEvent : UserInput::getActiveInputs()) {
-            m_player->handleInput(inputEvent);
+        for (auto i = UserInput::getActiveInputs().begin(), last = UserInput::getActiveInputs().end(); i != last; ) {
+            m_player->handleInput(*i);
+            ++i;
         }
     }
 
@@ -383,7 +366,6 @@ namespace Wyvern {
                     GLCall(glDisable(GL_MULTISAMPLE));
                 }
 
-                processEvents();
                 processInput();
                 m_player->updateCamera();
                 ImGui::Render();
