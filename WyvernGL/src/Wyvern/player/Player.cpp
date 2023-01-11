@@ -1,10 +1,13 @@
 #include "Player.h"
 #include "glm/gtx/string_cast.hpp"
+#include "Wyvern/Application.h"
 
 namespace Wyvern {
 
 	Player::Player()
-		: m_state(&Player::activeState), m_velocity(glm::vec3(0.0f, 0.0f, 0.0f))
+		: m_state(&Player::activeState), 
+		  m_velocity(glm::vec3(0.0f, 0.0f, 0.0f)),
+		  m_maxVelocity(0.5f)
 	{ 
 		m_playerCamera = new Camera(glm::vec3(0.0f, 0.0f, 0.0f), 0.1f); // Starting at x y z = 0 0 0, with sensitivity of 0.1
 	}
@@ -33,11 +36,9 @@ namespace Wyvern {
 		return *m_state;
 	}
 
-
-
 	void Player::modifyVelocity(glm::vec3 value)
 	{
-		m_velocity += value;
+		m_velocity += (value * m_maxVelocity * (Application::get().getWindow().deltaTime() * 20));
 		/*float minSpeed = -1.0f;
 		float maxSpeed = 1.0f;
 		m_velocity.x = std::clamp(m_velocity.x += value.x, minSpeed, maxSpeed) + 0.0f;

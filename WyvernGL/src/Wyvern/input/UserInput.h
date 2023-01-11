@@ -6,7 +6,6 @@ namespace Wyvern {
 
 	enum class InputAction {
 		NONE,
-		// POLL_MOVEMENT, // Every frame, this event will be dispatched to poll for player movement
 		// Entity Specific
 		ENTITY_CROUCH,
 		ENTITY_JUMP,
@@ -30,9 +29,10 @@ namespace Wyvern {
 		static void addKeyBinding(InputAction action, int keycode);
 		static void removeKeyBinding(InputAction action);
 		static void setDefaultKeyBindings();
+		// Reurns the first InputAction bound to a given integer keycode
 		static InputAction getKeyBinding(int keycode);
+		// Returns integer keycode bound to 'action' if it exists
 		static int getKeyBinding(InputAction action);
-
 		// Sets the key state (pressed or not) that is mapped to 'action' in m_keyMap to 'state'
 		static void setKeyState(InputAction action, bool state);
 		// Same as above, but this does the keybind map for you. Just pass in the raw keycode
@@ -50,7 +50,7 @@ namespace Wyvern {
 		}
 
 	private:
-		// Avoids duplicate code for both setKetState's above
+		// Avoids duplicate code for both setKeyState's above
 		static void _setKeyStateImpl(InputAction action, bool state);
 		// Maps an InputAction enum to an integer keycode (THIS IS THE CORRECT MAPPING ORDER!)
 		// Multiple unique actions can be bound to the same key, but multiple keys cannot be bound to the same action. 
@@ -61,8 +61,6 @@ namespace Wyvern {
 	};
 
 };
-
-
 
 
 // KEYCODE DEFINITIONS (These were stolen from GLFW)

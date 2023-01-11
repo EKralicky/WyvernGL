@@ -340,10 +340,9 @@ namespace Wyvern {
                     m_renderer->DrawArrays(chva, shader2D, GL_LINES);
                 }
 
-
                 //IMGui movement controls
                 {
-                    ImGui::SliderFloat("Camera Movement Speed", m_player->getCamera()->movementSpeed(), 10.0f, 100.0f);
+                    ImGui::SliderFloat("Camera Movement Speed", m_player->getMaxVelocity(), 0.0f, 5.0f);
                     ImGui::SliderFloat3("Light Position", &lightPosition.x, -250.0f, 250.0f);
                     ImGui::ColorEdit3("Light Color", &lightColor.x);
                     ImGui::Checkbox("Toggle Wireframe", &wireframeEnable);

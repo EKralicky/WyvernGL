@@ -33,7 +33,6 @@ namespace Wyvern {
 		default: // If not handled in the current state, "fall through" and handle in the parent state
 			AliveState::handleInput(player, input);
 		}
-		
 	}
 }
 

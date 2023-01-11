@@ -19,7 +19,7 @@ namespace Wyvern {
 		int m_healthPoints;
 		PlayerState* m_state;
 		glm::vec3 m_velocity; // Temporary physics. Remove when RigidBody is added
-		glm::vec3 m_maxVelocity; // Basically the movement speed
+		float m_maxVelocity; // Velocity multiplier. defulated to glm::vec3(1.0f, 1.0f, 1.0f)
 		
 	public:
 		Player();
@@ -38,6 +38,9 @@ namespace Wyvern {
 		void modifyVelocity(glm::vec3 value);
 		void decreaseVelocity(float rate);
 		void updateCamera();
+		inline void setMaxVelocity(float maxVel) { m_maxVelocity = maxVel; }
+		// returns by ptr
+		inline float* getMaxVelocity() { return &m_maxVelocity; }
 
 	};
 

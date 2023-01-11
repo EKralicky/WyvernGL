@@ -88,9 +88,6 @@ namespace Wyvern {
 	{
 		return false;
 	}
-
-
-
 }
 
 
