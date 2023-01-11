@@ -76,6 +76,13 @@ namespace Wyvern {
                 data.eventCallbackFn(event);
             });
 
+        glfwSetScrollCallback(m_window, [](GLFWwindow* window, double xoffset, double yoffset)
+            {
+                WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+                MouseScrolledEvent event(xoffset, yoffset);
+                data.eventCallbackFn(event);
+            });
+
         glfwSetKeyCallback(m_window, [](GLFWwindow* window, int key, int scancode, int action, int mods)
             {
                 WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);

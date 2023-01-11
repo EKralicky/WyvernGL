@@ -24,6 +24,7 @@ namespace Wyvern {
 
 		bool onWindowClose(WindowCloseEvent& e);
 		bool onMouseMoved(MouseMovedEvent& e);
+		bool onMouseScrolled(MouseScrolledEvent& e);
 		bool onKeyPressed(KeyPressedEvent& e);
 		bool onKeyReleased(KeyReleasedEvent& e);
 		void processInput();

@@ -37,8 +37,8 @@ namespace Wyvern {
 		MouseScrolledEvent(float x, float y)
 			: m_XOffset(x), m_YOffset(y) {}
 
-		inline float getXOffset() const { return m_XOffset; }
-		inline float getYOffset() const { return m_YOffset; }
+		float getXOffset() const { return m_XOffset; }
+		float getYOffset() const { return m_YOffset; }
 
 		std::string toString() const override
 		{

@@ -48,6 +48,7 @@ namespace Wyvern {
         EventDispatcher dispatcher(e);
         dispatcher.dispatch<WindowCloseEvent>(BIND_EVENT_FN(Application::onWindowClose));
         dispatcher.dispatch<MouseMovedEvent>(BIND_EVENT_FN(Application::onMouseMoved));
+        dispatcher.dispatch<MouseScrolledEvent>(BIND_EVENT_FN(Application::onMouseScrolled));
         dispatcher.dispatch<KeyPressedEvent>(BIND_EVENT_FN(Application::onKeyPressed));
         dispatcher.dispatch<KeyReleasedEvent>(BIND_EVENT_FN(Application::onKeyReleased));
     }
@@ -61,6 +62,13 @@ namespace Wyvern {
     bool Application::onMouseMoved(MouseMovedEvent& e)
     {
         m_player->getCamera()->processMouseInput(e.getXPos(), e.getYPos());
+        return true;
+    }
+
+    bool Application::onMouseScrolled(MouseScrolledEvent& e)
+    {
+        float delta = 0.2f;
+        *(m_player->getMaxVelocity()) += (e.getYOffset() * delta);
         return true;
     }
 
@@ -150,7 +158,7 @@ namespace Wyvern {
             //================
             // 3D RENDERING  
             //================
-            const unsigned long areaSideLength = 101;
+            const unsigned long areaSideLength = 501;
             const unsigned long cubeCount = glm::pow(areaSideLength, 2);
 
             std::vector<Cube> cubes = getCubesFlat(areaSideLength);
