@@ -4,7 +4,7 @@
 namespace Wyvern {
 	class AliveState : public PlayerState {
 	public:
-		virtual void handleInput(Player& player, InputEvent input) override;
+		virtual void handleInput(Player& player, InputAction input) override;
 		STATE_NAME("AliveState")
 		STATE_TYPE(ALIVE)
 	};

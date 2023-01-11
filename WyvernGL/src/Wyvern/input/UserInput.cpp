@@ -20,6 +20,30 @@ namespace Wyvern {
 		return m_keyBindings.find(action)->second;
 	}
 
+	void UserInput::setKeyState(InputAction action, bool state)
+	{
+		_setKeyStateImpl(action, state);
+	}
+
+	void UserInput::setKeyState(int keycode, bool state)
+	{
+		_setKeyStateImpl(getKeyBinding(keycode), state);
+	}
+
+	void UserInput::_setKeyStateImpl(InputAction action, bool state)
+	{
+		//WYV_ASSERT((action != InputAction::NONE), "Unable to set key state: Input Action is NONE");
+		if (action != InputAction::NONE) { // If not bound to any keycode
+			auto key = m_keyMap.find(action);
+			if (key != m_keyMap.end()) {
+				key->second = state;
+			}
+			else {
+				m_keyMap.insert({ action, state });
+			}
+		}
+	}
+
 	// 0.003ms runtime @intel-i7-9700K
 	InputAction UserInput::getKeyBinding(int keycode)
 	{
@@ -50,7 +74,6 @@ namespace Wyvern {
 		addKeyBinding(InputAction::ENTITY_CROUCH, WYV_KEY_LEFT_CONTROL);
 		addKeyBinding(InputAction::ENTITY_SPRINT, WYV_KEY_LEFT_SHIFT);
 		addKeyBinding(InputAction::ENTITY_OPEN_INVENTORY, WYV_KEY_LEFT_SHIFT);
-
 		addKeyBinding(InputAction::ESCAPE, WYV_KEY_ESCAPE);
 		addKeyBinding(InputAction::OPEN_DEBUG_MENU, WYV_KEY_GRAVE_ACCENT);
 		addKeyBinding(InputAction::VIEW_ONLINE_PLAYERS, WYV_KEY_TAB);

@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Wyvern.h"
 #include "event/Event.h"
 

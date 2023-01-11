@@ -11,17 +11,13 @@ namespace Wyvern {
 
 	// This class is eventually going to inherit RidgidBody for physics calculations
 	class Player {
-
-		inline static ActiveState activeState;
-		inline static AliveState aliveState;
-
 	private:
 		Camera* m_playerCamera;
 		// I have no idea how im going to store coordinates right now so ill add these here
 		glm::vec3 m_worldCoordinates;
 		glm::vec3 m_chunkCoordinates; 
 		int m_healthPoints;
-		PlayerState& m_state;
+		PlayerState* m_state;
 		glm::vec3 m_velocity; // Temporary physics. Remove when RigidBody is added
 		glm::vec3 m_maxVelocity; // Basically the movement speed
 		
@@ -29,14 +25,20 @@ namespace Wyvern {
 		Player();
 		~Player();
 
+		inline static ActiveState activeState;
+		inline static InactiveState inactiveState;
+		inline static AliveState aliveState;
+		inline static DeadState deadState;
+
 		Camera* getCamera() { return m_playerCamera; }
 
-		void handleInput(InputEvent input); // Dispatches to player state machine
+		void handleInput(InputAction input); // Dispatches to player state machine
 		void changeState(PlayerState& state);
-		PlayerStateType getStateType();
+		PlayerState& getState();
 		void modifyVelocity(glm::vec3 value);
 		void decreaseVelocity(float rate);
 		void updateCamera();
 
 	};
+
 }

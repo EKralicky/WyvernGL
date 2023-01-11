@@ -4,7 +4,7 @@
 namespace Wyvern {
 
 	Player::Player()
-		: m_state(Player::activeState), m_velocity(glm::vec3(0.0f, 0.0f, 0.0f))
+		: m_state(&Player::activeState), m_velocity(glm::vec3(0.0f, 0.0f, 0.0f))
 	{ 
 		m_playerCamera = new Camera(glm::vec3(0.0f, 0.0f, 0.0f), 0.1f); // Starting at x y z = 0 0 0, with sensitivity of 0.1
 	}
@@ -14,24 +14,26 @@ namespace Wyvern {
 		delete m_playerCamera;
 	}
 
-	void Player::handleInput(InputEvent input)
+	void Player::handleInput(InputAction input)
 	{
-		m_state.handleInput(*this, input);
+		m_state->handleInput(*this, input);
 	}
 
 	// When we change state, we call exit on the current state, change the state,
 	// and call enter on the new state
 	void Player::changeState(PlayerState& newState)
 	{
-		m_state.exit(*this);
-		m_state = newState;
-		m_state.enter(*this);
+		m_state->exit(*this);
+		m_state = &newState;
+		m_state->enter(*this);
 	}
 
-	PlayerStateType Player::getStateType()
+	PlayerState& Player::getState()
 	{
-		return m_state.getStateType();
+		return *m_state;
 	}
+
+
 
 	void Player::modifyVelocity(glm::vec3 value)
 	{

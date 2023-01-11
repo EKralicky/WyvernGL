@@ -8,8 +8,8 @@ namespace Wyvern {
 		NONE,
 		// POLL_MOVEMENT, // Every frame, this event will be dispatched to poll for player movement
 		// Entity Specific
-		ENTITY_JUMP,
 		ENTITY_CROUCH,
+		ENTITY_JUMP,
 		ENTITY_SPRINT,
 		ENTITY_MOVE_FORWARD,
 		ENTITY_MOVE_BACKWARD,
@@ -22,32 +22,8 @@ namespace Wyvern {
 		VIEW_ONLINE_PLAYERS
 	};
 
-	/*class KeyBinding {
-
-	public:
-		KeyBinding(int keycode, InputAction action) : m_keycode(keycode), m_actionName(action) {}
-		inline int getKeycode() const { return m_keycode; }
-		inline InputAction getActionName() const { return m_actionName; }
-
-		bool operator==(const KeyBinding& otherPoint) const
-		{
-			if (this->getActionName() == otherPoint.getActionName() &&
-				this->getKeycode() == otherPoint.getKeycode()) return true;
-			else return false;
-		}
-
-		struct keybind_hash {
-			std::size_t operator()(const KeyBinding& kebind) const {
-				return std::hash<int>()(kebind.getKeycode());
-			};
-		};
-
-	private:
-		int m_keycode;
-		InputAction m_actionName;
-	};*/
-
 	class UserInput {
+
 	public:
 		static bool isKeyPressed(int keycode);
 		static bool isMouseButtonDown(int mouseButton);
@@ -56,12 +32,40 @@ namespace Wyvern {
 		static void setDefaultKeyBindings();
 		static InputAction getKeyBinding(int keycode);
 		static int getKeyBinding(InputAction action);
+
+		// Sets the key state (pressed or not) that is mapped to 'action' in m_keyMap to 'state'
+		static void setKeyState(InputAction action, bool state);
+		// Same as above, but this does the keybind map for you. Just pass in the raw keycode
+		static void setKeyState(int keycode, bool state);
+		// Returns map of keyStates
+		inline static auto& getKeyStates() { return m_keyMap; }
+		// Prints boolean state value of each registered key in m_keyMap
+		inline static void printStates() { 
+			std::cout << "KeyStates: m_keyMap(";
+			for (auto& i : m_keyMap) {
+				std::cout << i.second << ", ";
+			}
+			std::cout << ")\n\n";
+		
+		}
+
 	private:
-		inline static std::map<InputAction, int> m_keyBindings; // maps input to GLFW (or our own) keycode
-		inline static std::map<InputAction, bool> m_keyMap; // Stores state of each key (pressed or not pressed)
+		// Avoids duplicate code for both setKetState's above
+		static void _setKeyStateImpl(InputAction action, bool state);
+		// Maps an InputAction enum to an integer keycode (THIS IS THE CORRECT MAPPING ORDER!)
+		// Multiple unique actions can be bound to the same key, but multiple keys cannot be bound to the same action. 
+		// This means that the Action is unique and there can only be one unique Action per map (hence why it's the key, not the value)
+		inline static std::map<InputAction, int> m_keyBindings; 
+		// Stores state of each key (pressed or not pressed)
+		inline static std::map<InputAction, bool> m_keyMap; 
 	};
+
 };
 
+
+
+
+// KEYCODE DEFINITIONS (These were stolen from GLFW)
 #define WYV_KEY_NONE -1
 
 #define WYV_KEY_SPACE              32

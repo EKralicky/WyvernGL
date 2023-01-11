@@ -1,6 +1,5 @@
 #include "Application.h"
 #include "EntryPoint.h"
-#include "Core.h"
 
 #include "Wyvern.h"
 #include "Wyvern/render/Shader.h"
@@ -35,10 +34,11 @@ namespace Wyvern {
 
 	Wyvern::Application::~Application()
 	{
+        // IMGUI
         ImGui_ImplOpenGL3_Shutdown();
         ImGui_ImplGlfw_Shutdown();
         ImGui::DestroyContext();
-
+        // GLFW
         glfwDestroyWindow(m_gameWindow->getGLFWWindow());
         glfwTerminate();
 	}
@@ -64,28 +64,28 @@ namespace Wyvern {
         return true;
     }
 
-    // Converts KeyPressedEvent to InputEvent with an InputType and if the kety is in the repeating state.
-    // This input event will be added to a list within UserInput. In the input pass, this list will get iterated over and
-    // the InputEvents will be sent to their appropriate destinations for processing e.g. the player state machine for movement
     bool Application::onKeyPressed(KeyPressedEvent& e)
     {
-        InputEvent inputEvent = { UserInput::getKeyBinding(e.getKeycode()), e.isRepeated() };
-        UserInput::addActiveInput(inputEvent);
+        if (!e.isRepeated()) { // Only handle non-repeated events
+            UserInput::setKeyState(e.getKeycode(), true); // Key is pressed
+        }
         return true;
     }
 
-    // When a key gets released, if an InputEvent with a matching keycode exists within the list of InputEvents, the InputEvent will get removed.
     bool Application::onKeyReleased(KeyReleasedEvent& e)
     {
-        UserInput::removeActiveInput(UserInput::getKeyBinding(e.getKeycode()));
+        UserInput::setKeyState(e.getKeycode(), false); // Key is no longer pressed
         return true;
     }
 
     void Application::processInput()
     {
-        for (auto i = UserInput::getActiveInputs().begin(), last = UserInput::getActiveInputs().end(); i != last; ) {
-            m_player->handleInput(*i);
-            ++i;
+        auto it = UserInput::getKeyStates().begin();
+        while (it != UserInput::getKeyStates().end()) {
+            if ((it->second) == true) {
+                m_player->handleInput(it->first);
+            }
+            ++it;
         }
     }
 

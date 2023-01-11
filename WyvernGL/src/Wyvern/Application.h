@@ -1,4 +1,6 @@
 #pragma once
+#include "Core.h"
+
 #include "GameWindow.h"
 #include "Wyvern/render/Camera.h"
 #include "Wyvern/render/Renderer.h"
@@ -9,6 +11,7 @@
 #include "event/KeyEvent.h"
 
 #include "Wyvern/player/Player.h"
+
 
 namespace Wyvern {
 

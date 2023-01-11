@@ -47,7 +47,9 @@ void Camera::updateCameraVectors()
 //Moves each coordinate of the camera's current position by a certain amount
 void Camera::moveBy(glm::vec3 amount)
 {
-	m_position += amount;
+	if (this->canMove()) {
+		m_position += amount;
+	}
 }
 
 glm::vec3 Camera::getFacingVector()

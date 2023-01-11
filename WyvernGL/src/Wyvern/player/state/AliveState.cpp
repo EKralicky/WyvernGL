@@ -3,9 +3,9 @@
 
 namespace Wyvern {
 
-	void AliveState::handleInput(Player& player, InputEvent input)
+	void AliveState::handleInput(Player& player, InputAction input)
 	{
-		switch (input.inputType)
+		switch (input)
 		{
 		default: // If not handled in the current state, "fall through" and handle in the parent state
 			std::cout << "Event reached top level state : AliveState and did not get processed!\n";
